@@ -1,6 +1,5 @@
 discord.py
 urlopen
 bs4
-random
+requests
 urllib
-Request
