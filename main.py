@@ -82,5 +82,4 @@ async def worng_random_problem(ctx):
     problem = target.find_all('td')[0].text
     await ctx.send(embed=search_problem(problem))
 
-token = ''
-client.run(os.environ[token])#['token'])
+client.run(os.environ['token'])
