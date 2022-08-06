@@ -1,2 +1,5 @@
 discord.py
 asyncio
+bs4
+urllib
+requests
