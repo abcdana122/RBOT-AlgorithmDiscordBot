@@ -1,8 +1,6 @@
 # import
-from urllib.request import urlopen, Request
-from bs4 import BeautifulSoup
 from discord.ext import commands
-import urllib, bs4, discord, random
+import discord
 
 # 기본 설정
 client = commands.Bot(command_prefix = '!')
