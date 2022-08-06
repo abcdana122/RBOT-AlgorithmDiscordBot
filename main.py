@@ -55,7 +55,6 @@ async def search_problem(ctx, problem):
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
         
-        await ctx.send(name)
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
@@ -64,6 +63,7 @@ async def search_problem(ctx, problem):
         
 @client.command(name='틀린문제')
 async def worng_random_problem(ctx, user_id):
+    await ctx.send(user_id)
     try:
         url = 'https://www.acmicpc.net/problemset?user='+user_id+'&user_solved=0'
         req = Request(url)
