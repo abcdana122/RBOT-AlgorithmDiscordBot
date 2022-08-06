@@ -4,6 +4,9 @@
 ## 🎙️ 접두사
 알봇은 `!` 를 접두사로 사용합니다.
 
+## 🎟️ 초대하기
+https://discord.com/api/oauth2/authorize?client_id=1004007234428219402&permissions=18432&scope=bot
+
 ## 🛠️ 명령어
 ### `!도움말`
 알봇의 명령어들을 보여줍니다.
