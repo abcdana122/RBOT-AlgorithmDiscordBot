@@ -26,6 +26,33 @@ def show_problem_embed(name, url, data):
         
     return embed
   
+# 알고리즘 테이블 생성
+def make_algorithm_table():
+    url = 'https://www.acmicpc.net/problem/tags'
+
+    req = Request(url)
+    res = urlopen(req)
+    html = res.read()
+    soup = bs4.BeautifulSoup(html, 'lxml')
+
+    target = soup.find('table')
+    tbody = target.find('tbody')
+    tdData = tbody.find_all('td')
+
+    table = {}
+    i = 0
+    for td in tdData:
+        try:
+            name = td.a.get_text()
+            if name != 'BOJ Book':
+                tag = str(td.a['href']).split('/')[-1]
+                i += 1
+                table[name] = tag
+        except:
+            pass
+    return table
+table = make_algorithm_table()
+
 # 문제 찾기
 def search_problem(problem):
     try:
@@ -157,7 +184,7 @@ async def algorithem_random_problem(ctx, a):
         
         except:
             await ctx.send(4)
-            embed = discord.Embed(title="[!오류] 조건에 맞는 알고리즘을 찾을 수 없습니다 알고리즘의 갯수를 줄여주세요", color=0xFF0000)
+            embed = discord.Embed(title="[!오류] 조건에 맞는 알고리즘을 찾을 수 없습니다\n알고리즘의 갯수를 줄여주세요", color=0xFF0000)
             await ctx.send(embed=embed)
   
 client.run(os.environ['token'])
