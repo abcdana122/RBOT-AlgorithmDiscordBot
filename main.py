@@ -108,7 +108,7 @@ async def random_problem(ctx):
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
-        await ctx.send(embed=make_problem_embed(name, url, tdData))
+        await ctx.send(embed=_problem_embed(name, url, tdData))
     
     except:
         random_problem()
