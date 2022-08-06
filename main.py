@@ -1,6 +1,6 @@
 # import
 from discord.ext import commands
-import discord
+import discord, os
 
 # 기본 설정
 client = commands.Bot(command_prefix = '!')
