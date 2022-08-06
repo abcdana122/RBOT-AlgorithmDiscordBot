@@ -122,7 +122,10 @@ async def tear_random_problem(ctx, tear):
             tear = 0
         else:
             tear_table = ['B', 'S', 'G', 'P', 'D', 'R']
-            tear = (5*tear_table.index(tear[0]))+(5-int(tear[1]))+1
+            if 1 <= int(tear[1]) <= 5:
+                tear = (5*tear_table.index(tear[0]))+(5-int(tear[1]))+1
+            else:
+                x = 10//0 # 일부로 오류 발생
 
         url = 'https://solved.ac/problems/level/'+str(tear)
 
