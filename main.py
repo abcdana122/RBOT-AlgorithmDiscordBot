@@ -47,7 +47,7 @@ async def search_problem(ctx, problem):
         html = res.read()
          
         soup = bs4.BeautifulSoup(html, 'html.parser')
-        name = soup.find_all('span')[1].text
+        name = soup.find_all('span')[4].text
 
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
