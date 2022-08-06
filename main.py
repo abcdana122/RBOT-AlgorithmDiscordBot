@@ -86,6 +86,6 @@ async def worng_random_problem(ctx, user_id):
         
     except:
         embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
-        ctx.send(embed=embed)
+        await ctx.send(embed=embed)
   
 client.run(os.environ['token'])
