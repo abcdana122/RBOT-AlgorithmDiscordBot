@@ -88,9 +88,7 @@ async def worng_random_problem(ctx, user_id):
         embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
         await ctx.send(embed=embed)
         
-@client.command(name='문제추천')
-async def random_problem(ctx):
-    await ctx.send(1)
+def random_problem():
     x = random.randrange(1000, 25399)
 
     url = 'https://www.acmicpc.net/problem/'+str(x)
@@ -98,25 +96,24 @@ async def random_problem(ctx):
     req = Request(url)
     res = urlopen(req)
     html = res.read()
-    await ctx.send(2)
     soup = bs4.BeautifulSoup(html, 'html.parser')
 
     try:
-        await ctx.send(3)
         name = soup.find_all('span')[3].text
         
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
-        await ctx.send(4)
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
         
-        await ctx.send(5)
-        await ctx.send(embed=_problem_embed(name, url, tdData))
+        return embed= show_problem_embed(name, url, tdData)
     
     except:
-        await ctx.send(10)
-        random_problem()
+        return random_problem()
+        
+@client.command(name='문제추천')
+async def my_random_problem(ctx):
+    await ctx.send(embed=random_problem())
   
 client.run(os.environ['token'])
