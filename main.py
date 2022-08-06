@@ -46,6 +46,7 @@ async def search_problem(ctx, problem):
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
+        await ctx.send(traceback.format_exc())
         embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
         await ctx.send(embed=embed)
   
