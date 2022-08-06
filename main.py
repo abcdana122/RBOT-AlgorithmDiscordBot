@@ -26,27 +26,27 @@ async def show_help(ctx):
     
 @client.command(name='문제찾기')
 async def search_problem(ctx, problem):
-    url = 'https://www.acmicpc.net/problem/'+str(x)
+    try:
+        url = 'https://www.acmicpc.net/problem/'+str(x)
 
-    req = Request(url)
-    res = urlopen(req)
-    html = res.read()
+        req = Request(url)
+        res = urlopen(req)
+        html = res.read()
 
-    soup = bs4.BeautifulSoup(html, 'html.parser')
+        soup = bs4.BeautifulSoup(html, 'html.parser')
 
-    name = soup.find_all('span')[3].text
-        
-    target = soup.find('table', {'id':'problem-info', 'class':'table'})
+        name = soup.find_all('span')[3].text
 
-    tbody = target.find('tbody')
-    trData = tbody.find_all('tr')
-    tdData = trData[0].find_all('td')
-    await ctx.send('쨌든 입력 받음', problem)
-    await ctx.send(embed=(show_problem_embed(name, url, tdData)))
+        target = soup.find('table', {'id':'problem-info', 'class':'table'})
 
-@search_problem.error
-async def search_problem_error(ctx):
-    embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
-    await ctx.send(embed=embed)
+        tbody = target.find('tbody')
+        trData = tbody.find_all('tr')
+        tdData = trData[0].find_all('td')
+        await ctx.send('쨌든 입력 받음', problem)
+        await ctx.send(embed=(show_problem_embed(name, url, tdData)))
+
+    except:
+        embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
+        await ctx.send(embed=embed)
   
 client.run(os.environ['token'])
