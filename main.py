@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from discord.ext import commands
 import urllib, bs4, discord, random, os
 
-client = commands.Bot(command_prefix = '-')
+client = commands.Bot(command_prefix = '!')
 
 @client.event
 async def on_ready():
@@ -22,6 +22,30 @@ async def show_help(ctx):
     embed.add_field(name='`!문제찾기 (문제번호)`', value="해당 문제의 정보를 불러옵니다", inline=False)
     embed.add_field(name='`!틀린문제 (백준아이디)`', value="해당 아이디 사용자의 틀린 문제를 랜덤으로 골라 추천해줍니다", inline=False)        
     embed.add_field(name='`!알고리즘 (알고리즘)`', value="해당 알고리즘이 사용되는 문제를 랜덤으로 추천해줍니다\n알고리즘은 ' / '로 구분합니다 (ex. 수학 / 문자열)")
+    await ctx.send(embed=embed)
+    
+@client.command(name='문제찾기')
+async def search_problem(ctx, problem):
+    url = 'https://www.acmicpc.net/problem/'+str(x)
+
+    req = Request(url)
+    res = urlopen(req)
+    html = res.read()
+
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+
+    name = soup.find_all('span')[3].text
+        
+    target = soup.find('table', {'id':'problem-info', 'class':'table'})
+
+    tbody = target.find('tbody')
+    trData = tbody.find_all('tr')
+    tdData = trData[0].find_all('td')
+    await ctx.send(embed=(show_problem_embed(name, url, tdData)))
+
+@search_problem.error
+async def search_problem_error(ctx):
+    embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
     await ctx.send(embed=embed)
   
 client.run(os.environ['token'])
