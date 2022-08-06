@@ -1,6 +1,7 @@
-import discord
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup
 from discord.ext import commands
-import os
+import urllib, bs4, discord, random, os
 
 client = commands.Bot(command_prefix = '-')
 
