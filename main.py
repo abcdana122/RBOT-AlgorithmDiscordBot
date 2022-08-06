@@ -28,7 +28,7 @@ async def show_help(ctx):
 async def search_problem(ctx, problem):
     try:
         await ctx.send('1')
-        url = 'https://www.acmicpc.net/problem/'+str(x)
+        url = 'https://www.acmicpc.net/problem/'+str(problem)
         
         await ctx.send('2')
         req = Request(url)
