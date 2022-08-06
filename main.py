@@ -55,7 +55,7 @@ async def show_help(ctx):
     embed = discord.Embed(title=":bulb: 도움말", description="관련된 명령어를 볼 수 있습니다", color=0x568A35)
 
     embed.add_field(name='`!문제추천`', value="백준 문제를 랜덤으로 추천해줍니다.", inline=False)
-    embed.add_field(name='`!티어문제 (티어)`', value="해당 티어의 백준 문제를 랜덤으로 추천해줍니다\n티어는 간편성을 위해 알파벳 대문자 한 글자와 숫자 하나로 구성됩니다 (ex. Silver 3 -> S3 / Unrated -> )", inline=False)
+    embed.add_field(name='`!티어문제 (티어)`', value="해당 티어의 백준 문제를 랜덤으로 추천해줍니다 티어는 간편성을 위해 알파벳 대문자 한 글자와 숫자 하나로 구성됩니다 (ex. Silver 3 -> S3 / Unrated -> )", inline=False)
     embed.add_field(name='`!문제찾기 (문제번호)`', value="해당 문제의 정보를 불러옵니다", inline=False)
     embed.add_field(name='`!틀린문제 (백준아이디)`', value="해당 아이디 사용자의 틀린 문제를 랜덤으로 골라 추천해줍니다", inline=False)        
     await ctx.send(embed=embed)
@@ -146,7 +146,7 @@ async def tear_random_problem(ctx, tear):
         await ctx.send(embed=search_problem(problem))
         
     except:
-        embed = discord.Embed(title="[!오류] 티어를 찾을 수 없습니다 정확한 티어를 입력해주세요\(ex. Silver 3 -> S3 / Unrated -> U)", color=0xFF0000)
+        embed = discord.Embed(title="[!오류] 티어를 찾을 수 없습니다 정확한 티어를 입력해주세요 (ex. Silver 3 -> S3 / Unrated -> U)", color=0xFF0000)
         await ctx.send(embed=embed)
     
   
