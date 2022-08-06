@@ -44,11 +44,11 @@ def search_problem(problem):
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
         
-        return (embed=(show_problem_embed(name, url, tdData)))
+        return show_problem_embed(name, url, tdData)
 
     except:
         embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
-        return (embed=embed)
+        return embed
 
 # 도움말
 @client.command(name='도움말')
