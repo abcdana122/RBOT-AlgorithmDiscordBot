@@ -1,5 +1,2 @@
 discord.py
-urlopen
-bs4
-requests
 asyncio
