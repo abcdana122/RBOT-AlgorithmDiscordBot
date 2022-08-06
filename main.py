@@ -37,7 +37,6 @@ def search_problem(problem):
          
         soup = bs4.BeautifulSoup(html, 'html.parser')
         name = soup.find_all('span')[4].text
-        await ctx.send(name)
 
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
@@ -83,10 +82,10 @@ async def worng_random_problem(ctx, user_id):
         x = random.randrange(1, len(trData))
         target = trData[x]
         problem = target.find_all('td')[0].text
-        
         await ctx.send(embed=(search_problem(problem)))
+        
     except:
         embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
-        return embed
+        ctx.send(embed=embed)
   
 client.run(os.environ['token'])
