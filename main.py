@@ -12,6 +12,19 @@ async def on_ready():
 
   await client.change_presence(activity=discord.Game(name="코딩"))
   print("봇 이름:",client.user.name,"봇 아이디:",client.user.id,"봇 버전:",discord.__version__)
+
+# 문제 띄워주기
+def show_problem_embed(name, url, data):
+    embed = discord.Embed(title=name, description=url, color=0x79ACD9)
+
+    embed.add_field(name=data[0].text, value="시간 제한", inline=True)
+    embed.add_field(name=data[1].text, value="메모리 제한", inline=True)
+    embed.add_field(name=data[2].text, value="제출", inline=True)
+    embed.add_field(name=data[3].text, value="정답", inline=True)
+    embed.add_field(name=data[4].text, value="맞힌 사람", inline=True)
+    embed.add_field(name=data[5].text, value="정답 비율", inline=True)
+        
+    return embed
   
 @client.command(name='도움말')
 async def show_help(ctx):
@@ -27,31 +40,47 @@ async def show_help(ctx):
 @client.command(name='문제찾기')
 async def search_problem(ctx, problem):
     try:
-        await ctx.send('1')
         url = 'https://www.acmicpc.net/problem/'+str(problem)
         
-        await ctx.send('2')
         req = Request(url)
         res = urlopen(req)
         html = res.read()
          
-        await ctx.send('3')
         soup = bs4.BeautifulSoup(html, 'html.parser')
-
         name = soup.find_all('span')[3].text
 
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
-        await ctx.send('4')
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
         
-        await ctx.send('5')
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
         embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
         await ctx.send(embed=embed)
+        
+@client.command(name='틀린문제')
+async def worng_random_problem(ctx, user_id):
+    try:
+        url = 'https://www.acmicpc.net/problemset?user='+user_id+'&user_solved=0'
+        req = Request(url)
+        res = urlopen(req)
+        html = res.read()
+
+        soup = bs4.BeautifulSoup(html, 'html.parser')
+
+        table = soup.find('table')
+        tbody = table.find('tbody')
+        trData = tbody.find_all('tr')
+
+        x = random.randrange(1, len(trData))
+        target = trData[x]
+        problem = target.find_all('td')[0].text
+        await ctx.send(embed=search_problem(problem))
+    except:
+        embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
+        return embed
   
 client.run(os.environ['token'])
