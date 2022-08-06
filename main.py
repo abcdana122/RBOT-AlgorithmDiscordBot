@@ -26,28 +26,31 @@ async def show_help(ctx):
     
 @client.command(name='문제찾기')
 async def search_problem(ctx, problem):
-    await ctx.send('쨌든 입력 받음')
-    await ctx.send(problem)
     try:
+        await ctx.send('1')
         url = 'https://www.acmicpc.net/problem/'+str(x)
-
+        
+        await ctx.send('2')
         req = Request(url)
         res = urlopen(req)
         html = res.read()
-
+         
+        await ctx.send('3')
         soup = bs4.BeautifulSoup(html, 'html.parser')
 
         name = soup.find_all('span')[3].text
 
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
-
+        
+        await ctx.send('4')
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
+        
+        await ctx.send('5')
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
-        await ctx.send(traceback.format_exc())
         embed = discord.Embed(title="[!오류] 문제가 없습니다", color=0xFF0000)
         await ctx.send(embed=embed)
   
