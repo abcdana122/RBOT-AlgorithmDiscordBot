@@ -99,7 +99,7 @@ def random_problem():
     soup = bs4.BeautifulSoup(html, 'html.parser')
 
     try:
-        name = soup.find_all('span')[3].text
+        name = soup.find_all('span')[4].text
         
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
