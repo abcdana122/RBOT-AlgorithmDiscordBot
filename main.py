@@ -65,26 +65,36 @@ async def search_problem(ctx, problem):
 async def worng_random_problem(ctx, user_id):
     await ctx.send(user_id)
     try:
-        await ctx.send(1)
         url = 'https://www.acmicpc.net/problemset?user='+user_id+'&user_solved=0'
         req = Request(url)
         res = urlopen(req)
         html = res.read()
-         
-        await ctx.send(2)
+
         soup = bs4.BeautifulSoup(html, 'html.parser')
         
-        await ctx.send(3)
         table = soup.find('table')
         tbody = table.find('tbody')
         trData = tbody.find_all('tr')
         
-        await ctx.send(3)
         x = random.randrange(1, len(trData))
         target = trData[x]
         problem = target.find_all('td')[0].text
-        await ctx.send(4)
-        await ctx.send(embed=search_problem(problem))
+        
+        url = 'https://www.acmicpc.net/problem/'+str(problem)
+        
+        req = Request(url)
+        res = urlopen(req)
+        html = res.read()
+         
+        soup = bs4.BeautifulSoup(html, 'html.parser')
+        name = soup.find_all('span')[4].text
+
+        target = soup.find('table', {'id':'problem-info', 'class':'table'})
+        
+        tbody = target.find('tbody')
+        trData = tbody.find_all('tr')
+        tdData = trData[0].find_all('td')
+        await ctx.send(embed=(show_problem_embed(name, url, tdData)))
     except:
         embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
         return embed
