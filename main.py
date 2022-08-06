@@ -37,13 +37,13 @@ def search_problem(problem):
          
         soup = bs4.BeautifulSoup(html, 'html.parser')
         name = soup.find_all('span')[4].text
+        await ctx.send(name)
 
         target = soup.find('table', {'id':'problem-info', 'class':'table'})
         
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
-        
         return show_problem_embed(name, url, tdData)
 
     except:
