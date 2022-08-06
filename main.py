@@ -88,7 +88,7 @@ async def worng_random_problem(ctx, user_id):
         embed = discord.Embed(title="[!오류] 틀린 문제가 없습니다", color=0xFF0000)
         await ctx.send(embed=embed)
         
-def random_problem():
+'''def random_problem():
     x = random.randrange(1000, 25399)
 
     url = 'https://www.acmicpc.net/problem/'+str(x)
@@ -114,6 +114,6 @@ def random_problem():
         
 @client.command(name='문제추천')
 async def my_random_problem(ctx):
-    await ctx.send(embed=random_problem())
+    await ctx.send(embed=random_problem())'''
   
 client.run(os.environ['token'])
