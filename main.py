@@ -55,6 +55,7 @@ async def search_problem(ctx, problem):
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
         
+        await ctx.send(name)
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
