@@ -115,5 +115,49 @@ def random_problem():
 @client.command(name='문제추천')
 async def my_random_problem(ctx):
     await ctx.send(embed=random_problem())
+    
+@client.command(name='알고리즘')
+async def algorithem_random_problem(ctx, a):
+    await ctx.send(1)
+    a = a.split('/')
+    error = 0
+    url = 'https://www.acmicpc.net/problemset?sort=ac_desc&solvedac_option=xz%2Cxn&algo='
+    for i in a:
+        try:
+            if i == a[0] and error == 0:
+                url += str(table[i])
+            else:
+                url += '%2C'+table[i]
+        except:
+            error = 1
+            embed = discord.Embed(title="[!오류] 알고리즘을 찾을 수 없습니다\n정확한 알고리즘을 입력해주세요\n( 알고리즘의 명칭이 궁금하다면 ```!알고리즘``` )", color=0xFF0000)
+            await ctx.send(embed=embed)
+        
+    await ctx.send(2)
+    if error == 0:
+        url += '&algo_if=and'
+
+        try:
+            req = Request(url)
+            res = urlopen(req)
+            html = res.read()
+
+            soup = bs4.BeautifulSoup(html, 'html.parser')
+
+            table = soup.find('table')
+            tbody = table.find('tbody')
+            trData = tbody.find_all('tr')
+
+            x = random.randrange(1, len(trData))
+            target = trData[x]
+            problem = target.find_all('td')[0].text
+            
+            await ctx.send(3)
+            await ctx.send(embed=search_problem(problem))
+        
+        except:
+            await ctx.send(4)
+            embed = discord.Embed(title="[!오류] 조건에 맞는 알고리즘을 찾을 수 없습니다 알고리즘의 갯수를 줄여주세요", color=0xFF0000)
+            await ctx.send(embed=embed)
   
 client.run(os.environ['token'])
