@@ -26,33 +26,6 @@ def show_problem_embed(name, url, data):
         
     return embed
   
-# 알고리즘 테이블 생성
-def make_algorithm_table():
-    url = 'https://www.acmicpc.net/problem/tags'
-
-    req = Request(url)
-    res = urlopen(req)
-    html = res.read()
-    soup = bs4.BeautifulSoup(html, 'lxml')
-
-    target = soup.find('table')
-    tbody = target.find('tbody')
-    tdData = tbody.find_all('td')
-
-    table = {}
-    i = 0
-    for td in tdData:
-        try:
-            name = td.a.get_text()
-            if name != 'BOJ Book':
-                tag = str(td.a['href']).split('/')[-1]
-                i += 1
-                table[name] = tag
-        except:
-            pass
-    return table
-table = make_algorithm_table()
-
 # 문제 찾기
 def search_problem(problem):
     try:
@@ -143,48 +116,36 @@ def random_problem():
 async def my_random_problem(ctx):
     await ctx.send(embed=random_problem())
     
-@client.command(name='알고리즘')
-async def algorithem_random_problem(ctx, a):
-    await ctx.send(1)
-    a = a.split('/')
-    error = 0
-    url = 'https://www.acmicpc.net/problemset?sort=ac_desc&solvedac_option=xz%2Cxn&algo='
-    for i in a:
-        try:
-            if i == a[0] and error == 0:
-                url += str(table[i])
-            else:
-                url += '%2C'+table[i]
-        except:
-            error = 1
-            embed = discord.Embed(title="[!오류] 알고리즘을 찾을 수 없습니다\n정확한 알고리즘을 입력해주세요\n( 알고리즘의 명칭이 궁금하다면 ```!알고리즘``` )", color=0xFF0000)
-            await ctx.send(embed=embed)
+@client.command(name='티어문제')
+async def tear_random_problem(ctx, tear):
+    try:
+        if tear == 'U':
+            tear = 0
+        else:
+            tear_table = ['B', 'S', 'G', 'P', 'D', 'R']
+            tear = (5*tear_table.index(tear[0]))+(5-int(tear[1]))+1
+
+        url = 'https://solved.ac/problems/level/'+str(tear)
+
+        req = Request(url)
+        res = urlopen(req)
+        html = res.read()
+
+        soup = bs4.BeautifulSoup(html, 'html.parser')
+
+        table = soup.find('table')
+        tbody = table.find('tbody')
+        trData = tbody.find_all('tr')
+
+        x = random.randrange(1, len(trData))
+        target = trData[x]
+
+        problem = target.find_all('span')[0].text[1:]
+        await ctx.send(embed=search_problem(problem))
         
-    await ctx.send(2)
-    if error == 0:
-        url += '&algo_if=and'
-
-        try:
-            req = Request(url)
-            res = urlopen(req)
-            html = res.read()
-
-            soup = bs4.BeautifulSoup(html, 'html.parser')
-
-            table = soup.find('table')
-            tbody = table.find('tbody')
-            trData = tbody.find_all('tr')
-
-            x = random.randrange(1, len(trData))
-            target = trData[x]
-            problem = target.find_all('td')[0].text
-            
-            await ctx.send(3)
-            await ctx.send(embed=search_problem(problem))
-        
-        except:
-            await ctx.send(4)
-            embed = discord.Embed(title="[!오류] 조건에 맞는 알고리즘을 찾을 수 없습니다\n알고리즘의 갯수를 줄여주세요", color=0xFF0000)
-            await ctx.send(embed=embed)
+    except:
+        embed = discord.Embed(title="[!오류] 티어를 찾을 수 없습니다 정확한 티어를 입력해주세요 (ex. Silver 3 -> S3)", color=0xFF0000)
+        await ctx.send(embed=embed)
+    
   
 client.run(os.environ['token'])
