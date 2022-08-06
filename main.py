@@ -41,6 +41,7 @@ async def search_problem(ctx, problem):
     tbody = target.find('tbody')
     trData = tbody.find_all('tr')
     tdData = trData[0].find_all('td')
+    await ctx.send('쨌든 입력 받음')
     await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
 @search_problem.error
