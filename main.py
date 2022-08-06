@@ -26,6 +26,7 @@ async def show_help(ctx):
     
 @client.command(name='문제찾기')
 async def search_problem(ctx, problem):
+    await ctx.send('쨌든 입력 받음', problem)
     try:
         url = 'https://www.acmicpc.net/problem/'+str(x)
 
@@ -42,7 +43,6 @@ async def search_problem(ctx, problem):
         tbody = target.find('tbody')
         trData = tbody.find_all('tr')
         tdData = trData[0].find_all('td')
-        await ctx.send('쨌든 입력 받음', problem)
         await ctx.send(embed=(show_problem_embed(name, url, tdData)))
 
     except:
