@@ -27,6 +27,7 @@ async def show_help(ctx):
 @client.command(name='문제찾기')
 async def search_problem(ctx, problem):
     await ctx.send('쨌든 입력 받음')
+    await ctx.send(problem)
     try:
         url = 'https://www.acmicpc.net/problem/'+str(x)
 
