@@ -146,7 +146,7 @@ async def tear_random_problem(ctx, tear):
         await ctx.send(embed=search_problem(problem))
         
     except:
-        embed = discord.Embed(title="[!오류] 티어를 찾을 수 없습니다 정확한 티어를 입력해주세요 (ex. Silver 3 -> S3 / Unrated -> U)", color=0xFF0000)
+        embed = discord.Embed(title="[!오류] 티어를 찾을 수 없습니다 정확한 티어를 입력해주세요\(ex. Silver 3 -> S3 / Unrated -> U)", color=0xFF0000)
         await ctx.send(embed=embed)
     
   
